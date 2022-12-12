@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Welcom](README.md)
+* [Welcome](README.md)
 * [VAE](VAE.md)
 * [原型网络](原型网络.md)
 * [如何关注前沿进展](如何关注前沿进展.md)
