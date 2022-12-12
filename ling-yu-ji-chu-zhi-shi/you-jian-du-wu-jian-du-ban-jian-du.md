@@ -54,6 +54,18 @@ google
 
 ### ACPL
 
+找hard sample：是度量学习的思想；如何找hard sample：信息量，距离（这个思想在度量学习里面很常规）
+
+优先学习hard sample：anti-curriculum的思想
+
+伪标签筛选：半监督，大部分论文都在回答如何选择可信的/打出可信的伪标签，而没有思考哪些样本最需要打伪标签
+
+本文将hard sample和伪标签结合起来：给hard sample打伪标签
+
+如何打出可信的伪标签：mixup
+
+
+
 Anti-curriculum Pseudo-labelling for Semi-supervised Medical Image Classification（CVPR 2022）
 
 [代码](https://github.com/FBLADL/ACPL)

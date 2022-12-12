@@ -1,5 +1,7 @@
 # 自监督学习
 
+[知乎专栏](https://zhuanlan.zhihu.com/p/563288232)
+
 自监督学习Self-supervised learning，属于无监督学习的一种方法。“标注”来自数据本身，主要通过各种“auxiliary task、proxy tasks”来提高feature representation的质量，希望模型的backbone能够学到一种通用的特征表达用于下游任务，从而提高下游任务downstream tasks的质量。
 
 > 和representation learning区别？
