@@ -11,6 +11,6 @@
 * [SSL: 半监督学习](ling-yu-ji-chu-zhi-shi/you-jian-du-wu-jian-du-ban-jian-du.md)
 * [自监督学习](ling-yu-ji-chu-zhi-shi/zi-jian-du-xue-xi.md)
 
-## 🥳 学习Tips
+## 学习Tips
 
 * [如何关注前沿进展](xue-xi-tips/ru-he-guan-zhu-qian-yan-jin-zhan.md)

@@ -44,15 +44,15 @@ similarity = (np.sum(A * B))/(np.linalg.norm(A)) / (np.linalg.norm(A))
 
 两种最基本的损失函数和采样方法，优点应该在于简单便于理解，但是缺点也很明显：
 
-- 单独使用收敛速度慢
-- 学习后期大多数样本都能满足损失函数的约束条件，所以对进一步学习的贡献很小
-- 主要用于二分类问题，对于多分类问题中作用有限
+* 单独使用收敛速度慢
+* 学习后期大多数样本都能满足损失函数的约束条件，所以对进一步学习的贡献很小
+* 主要用于二分类问题，对于多分类问题中作用有限
 
 #### Contrastive loss
 
 最基本的度量学习思路。采取的采样方法是随机采样，如果两者标签一致则减小两者间的距离，反正增大两者的距离。但需要用一个margin作为边界，避免正负样本间的距离过大。(这个margin在其他损失函数中也很常见，是为了保证模型的鲁棒性和泛化能力)
 
-<img src="https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A01.png" alt="image-20221212154123644" style="zoom:50%;" />
+![image-20221212154123644](https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A01.png)
 
 缺点：两个样本间的距离缺乏参照性，也就是说两个正样本之间的距离可能在优化后仍然大于正负样本间的距离。
 
@@ -60,27 +60,26 @@ similarity = (np.sum(A * B))/(np.linalg.norm(A)) / (np.linalg.norm(A))
 
 设计用于解决Contrastive loss的缺点。采样方法是每次选取三个样本——第一个样本作为锚点anchor，第二个样本和anchor标签一致，第三个样本和anchor标签不一致。损失函数保证锚点和负样本的距离大于锚点和正样本的距离。
 
-<img src="https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A02.png" alt="image-20221212154147224" style="zoom:50%;" />
+![image-20221212154147224](https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A02.png)
 
 这种设计保证了正样本间的距离与正负样本间的距离差大于m，考虑到了相对的距离关系。
 
-## N-pair-ms loss 和 Lifted struct loss
+### N-pair-ms loss 和 Lifted struct loss
 
-### N-pair-ms
+#### N-pair-ms
 
 针对多分类，考虑到多分类问题中负样本不止一个问题，需要将所有标签不一致的负样本都纳入损失计算，从一个batch中增大x和所有对于x的负样本和对于x的正样本之间的距离差。
 
-<img src="https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A03.png" alt="image-20221212154222285" style="zoom:50%;" />
+![image-20221212154222285](https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A03.png)
 
 xi相对于x来说均是标签不一致的样本（负样本），f是样本到隐藏空间的映射函数
 
-### Lifted struct loss
+#### Lifted struct loss
 
 基于训练中每个batch动态生成三元组，这里考虑到了样本的信息量/困难度，认为距离正样本最近的负样本是最具信息量，最难学习的样本。选择的三元组是按照这种方法来选择的最具信息量的样本：
 
-<img src="https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A04.png" alt="image-20221212154236028" style="zoom:50%;" />
+![image-20221212154236028](https://nikki-article-pic.oss-cn-beijing.aliyuncs.com/img/%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A04.png)
 
 P是正样本对的集合，（i，j）是一对正样本对，L是希望最小化两者之间的距离
 
 下面一个式子是对每一对正样本对，模型分别独立的去挖掘他们最困难的负样本（也就是距离他们最近的负样本），分别为k和l，然后选出里面距离最小的一个记作n。根据最困难的三元组计算三元组{i，j，n} 计算triplet loss函数。
-
