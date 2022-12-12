@@ -1,37 +1,6 @@
-# 基础知识
+# SSL: 半监督学习
 
-## 强化学习
-
-需要与外界交互；强化学习关注机器和环境的交互，目标是获取最大回报（反馈、激励）
-
-强化学习具有如下特点：
-
-- 没有监督者，只有一个奖励信号
-- 反馈是延迟的而非即时
-- 具有时间序列性质
-- 智能体的行为会影响后续的数据
-
-
-
-## 自监督学习
-
-自监督学习Self-supervised learning，属于无监督学习的一种方法。“标注”来自数据本身，主要通过各种“auxiliary task、proxy tasks”来提高feature representation的质量，希望模型的backbone能够学到一种通用的特征表达用于下游任务，从而提高下游任务downstream tasks的质量。
-
-> 和representation learning区别？
-
-下面介绍一些常用的代理任务：
-
-- 图像重组Jigsaw Puzzles
-  - 预测不同patch的相对位置信息
-  - 提高局部特征提取和全局空间信息提取能力
-- 图像上色Colorization
-- 旋转角度预测
-- 修复In-painting
-- 多任务：上述几种辅助任务一起对模型进行训练
-
-## SSL:Semi-Supervised Learning 半监督学习
-
-不像强化学习一样依赖外界交互，而是通过利用未标记样本来提升模型的性能，主要思想在于关注如何利用大量无标注数据的信息和少量有标注数据的信息进行监督学习。训练数据中同时有有标签数据和无标签数据，一般假设，无标签数据比有标签数据多得多。
+Semi-Supervised Learning， SSL是半监督学习的缩写。半监督学习不像强化学习一样依赖外界交互，而是通过利用未标记样本来提升模型的性能，主要思想在于关注如何利用大量无标注数据的信息和少量有标注数据的信息进行监督学习。训练数据中同时有有标签数据和无标签数据，一般假设，无标签数据比有标签数据多得多。
 
 [综述](https://www.cnblogs.com/picassooo/p/14923333.html)
 
@@ -39,9 +8,9 @@
 
 基于伪标签的半监督学习算法，对标签预测错误则往往导致结果下降的问题：
 
-- 标签去噪
-- 对前期的无监督代价设置比较少的权重，到后面预测相对准确时慢慢增大权重（权重如何设置和更新？）
-- 一定程度的标签噪声可能会引导网络跳出比较 sharp 的极小值点（或许）
+* 标签去噪
+* 对前期的无监督代价设置比较少的权重，到后面预测相对准确时慢慢增大权重（权重如何设置和更新？）
+* 一定程度的标签噪声可能会引导网络跳出比较 sharp 的极小值点（或许）
 
 ### consistency learning
 
@@ -55,8 +24,6 @@ consistency learning是半监督学习常用的一种思想：同一样本经过
 > 这个和domain adaption里面的consistency regularization的思想很像
 >
 > CR是数据增强前后？有什么区别？
-
-
 
 ## 相关论文
 
@@ -74,20 +41,16 @@ consistency learning是半监督学习常用的一种思想：同一样本经过
 
 google
 
-
-
 问题：
 
-1. 多类别和多标签的区别?
+1.  多类别和多标签的区别?
 
-   multi-label是一张图片有多个label
-   multi-class是一张图片一个类别，但是总的类别数量很多（超过2）
+    multi-label是一张图片有多个label multi-class是一张图片一个类别，但是总的类别数量很多（超过2）
+2.  半监督学习具体的训练流程？
 
-2. 半监督学习具体的训练流程？
+    是同时对有标注的数据计算损失更新模型，然后对无标注的数据预测伪标签保存吗？
 
-   是同时对有标注的数据计算损失更新模型，然后对无标注的数据预测伪标签保存吗？
-
-   还是先对有标注数据计算更新模型之后，再对无标注数据生成一批伪标签？
+    还是先对有标注数据计算更新模型之后，再对无标注数据生成一批伪标签？
 
 ### ACPL
 
@@ -104,21 +67,19 @@ Anti-curriculum Pseudo-labelling for Semi-supervised Medical Image Classificatio
 
 本文针对多分类多标签和类别不均衡的半监督医学图像分析提出一种新的方法，主要思想如下
 
-1. 选择the most informative unlabeled images 来进行伪标记，对于如何选择informative unlabeled samples，提出一种信息度量方式：cross-distribution sample informativeness（CDSI）
+1.  选择the most informative unlabeled images 来进行伪标记，对于如何选择informative unlabeled samples，提出一种信息度量方式：cross-distribution sample informativeness（CDSI）
 
-   这基于之前的研究的观点：对于SSL，在 unlabeled and labeled samples 之间存在一个 distribution shift，在训练过程中，distribution shift会导致模型学不好，所以更有效的学习方法应该是关注学习尽可能远离labelled samples 分布的informative unlabeled samples，对它们打伪标签；同时这些样本也很可能属于样本数少的类别，对这些样本进行关注也就避免了估计class-wise的阈值的需要但还能解决类别分布不平衡问题。
+    这基于之前的研究的观点：对于SSL，在 unlabeled and labeled samples 之间存在一个 distribution shift，在训练过程中，distribution shift会导致模型学不好，所以更有效的学习方法应该是关注学习尽可能远离labelled samples 分布的informative unlabeled samples，对它们打伪标签；同时这些样本也很可能属于样本数少的类别，对这些样本进行关注也就避免了估计class-wise的阈值的需要但还能解决类别分布不平衡问题。
 
-   一个有效的 learning curriculum 必须关注于尽可能远离 labelled samples 分布的 informative unlabeled samples
+    一个有效的 learning curriculum 必须关注于尽可能远离 labelled samples 分布的 informative unlabeled samples
+2.  提出一种新的伪标签机制：informative mixup（IM）
 
-2. 提出一种新的伪标签机制：informative mixup（IM）
+    mixup模型给出的标签和KNN给出的标签（K近邻标签的均值）
 
-   mixup模型给出的标签和KNN给出的标签（K近邻标签的均值）
+    权重取计算出来的特征x的信息密度（一般大于0.5，算出来观察得到的）
+3.  提出anchor set purification，ASP钝化方法
 
-   权重取计算出来的特征x的信息密度（一般大于0.5，算出来观察得到的）
-
-3. 提出anchor set purification，ASP钝化方法
-
-   选择 informative pseudo-labelled 样本，并将它们包含在 labelled anchor set，以提高KNN分类器的伪标记精度
+    选择 informative pseudo-labelled 样本，并将它们包含在 labelled anchor set，以提高KNN分类器的伪标记精度
 
 创新：有研究使用Curriculum learning来研究pseudo-labelling SSL 方法，但是还没有人使用anti-curriculum learning来研究SSL方法。
 
@@ -127,8 +88,6 @@ CDSI: cross-distribution sample informativeness 度量样本信息量的方法
 IM: informative mixup  给出伪标签的机制
 ASP: anchor set purification 更新anchor set的方法
 ```
-
-
 
 ## 自监督系列学习
 
@@ -142,9 +101,8 @@ Encoder使用ViT架构，只作用于unmasked images，和bert不一样的是，
 
 Decoder使用transformer架构
 
-- 对大模型作为backbone（encoder）优化效果更好
-- partial fine-tuning：**只训练最后模型的若干层的参数**
-  - 之前常用的是：
-    - **Linear Probing (只训练最后一层线性分类器的参数)** 
-    -  **Fine-tuning (训练所有层的参数)**
-
+* 对大模型作为backbone（encoder）优化效果更好
+* partial fine-tuning：**只训练最后模型的若干层的参数**
+  * 之前常用的是：
+    * **Linear Probing (只训练最后一层线性分类器的参数)**
+    * **Fine-tuning (训练所有层的参数)**
