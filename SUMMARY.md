@@ -14,3 +14,7 @@
 ## 学习Tips
 
 * [如何关注前沿进展](xue-xi-tips/ru-he-guan-zhu-qian-yan-jin-zhan.md)
+
+## Debug
+
+* ['GLIBCXX\_3.4.26' not found](debug/glibcxx\_3.4.26-not-found.md)
