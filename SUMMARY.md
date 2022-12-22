@@ -17,4 +17,5 @@
 
 ## Debug
 
+* [github time out](debug/github-time-out.md)
 * ['GLIBCXX\_3.4.26' not found](debug/glibcxx\_3.4.26-not-found.md)
