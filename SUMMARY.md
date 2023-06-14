@@ -11,15 +11,12 @@
 * [自监督学习](ling-yu-ji-chu-zhi-shi/zi-jian-du-xue-xi.md)
 * [强化学习](ling-yu-ji-chu-zhi-shi/qiang-hua-xue-xi.md)
 
-***
-
-* [Page 1](page-1.md)
-
 ## 学习Tips
 
 * [如何关注前沿进展](xue-xi-tips/ru-he-guan-zhu-qian-yan-jin-zhan.md)
 
 ## Debug
 
+* [Latex IEEE模版颜色Bug](debug/latex-ieee-mo-ban-yan-se-bug.md)
 * [github time out](debug/github-time-out.md)
 * ['GLIBCXX\_3.4.26' not found](debug/glibcxx\_3.4.26-not-found.md)
